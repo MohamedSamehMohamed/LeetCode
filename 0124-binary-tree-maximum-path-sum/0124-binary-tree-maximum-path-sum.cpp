@@ -25,7 +25,8 @@ public:
                 max({left[2], 
                      right[2], 
                      root->val, 
-                     root->val + max({0, left[0], left[1]}) + max({0, right[0], right[1]})
+                     root->val + max({0, left[0], left[1]}) 
+                         + max({0, right[0], right[1]})
                      })};
     }
     int maxPathSum(TreeNode* root) {
