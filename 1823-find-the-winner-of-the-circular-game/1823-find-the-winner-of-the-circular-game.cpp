@@ -8,15 +8,7 @@ public:
             this->next = next;
         }  
     };
-    Node* getPrv(Node* head){
-        Node* node = head;
-        while (node->next != head){
-            node = node->next;
-        }
-        return node;
-    }
     int findTheWinner(int n, int k) {
-        if (n == 1) return 1;
         Node* root = new Node(1);
         Node* head = root;
         
