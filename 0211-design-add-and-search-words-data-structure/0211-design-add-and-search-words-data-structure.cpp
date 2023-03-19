@@ -1,50 +1,60 @@
-/*
- * we will design a trie, when we search and we are with a dot we can go to every next path
- */
-class WordDictionary {
-private:
-  class Trie{
-    public:
-      bool isLeaf;
-      vector<int> next;
-      Trie(){
-        isLeaf = 0;
-        next = vector<int>(26, -1);
-      }
-  };
-public:
-  vector<Trie> root;
-  WordDictionary() {
-    root.push_back(Trie());
-  }
-
-  void addWord(string word) {
-    int ptr = 0;
-    for (int i = 0; i < word.size(); i++){
-      if (root[ptr].next[word[i] - 'a'] == -1){
-        root[ptr].next[word[i] - 'a'] = root.size();
-        root.push_back(Trie());
-      }
-      ptr = root[ptr].next[word[i] - 'a'];
+class Trie {
+  struct Node {
+    bool isLeaf;
+    vector<int> next;
+    Node(){
+      isLeaf = 0;
+      next = vector<int>(26, -1);
     }
-    root[ptr].isLeaf = 1;
-  }
-  bool dfs(int ptr, string& pat, int index){
-    if (index == pat.size()) return root[ptr].isLeaf;
-    if (pat[index] == '.'){
-      for (int i = 0; i < 26; i++){
-        if (root[ptr].next[i] != -1 && dfs(root[ptr].next[i], pat, index + 1))
-          return 1;
+  };
+  vector<Node> trie;
+  public:
+    Trie(){
+    trie.push_back(Node());
+    }
+  void insert(string str){
+    int rootIndex = 0;
+    for (int i = 0; i < str.size(); i++){
+      if (trie[rootIndex].next[str[i] - 'a'] == -1){
+        trie[rootIndex].next[str[i] - 'a'] = trie.size();
+        trie.push_back(Node());
       }
-    }else {
-      if (root[ptr].next[pat[index] - 'a'] != -1)
-        return dfs(root[ptr].next[pat[index] - 'a'], pat, index + 1);
+      rootIndex = trie[rootIndex].next[str[i] - 'a'];
+    }
+    trie[rootIndex].isLeaf = 1;
+  }
+  bool searchHelper(string& str, int rootIndex, int strIndex){
+    if (rootIndex == -1) return 0;
+    if (strIndex == str.size()){
+      return trie[rootIndex].isLeaf;
+    }
+    if (str[strIndex] != '.')
+      return searchHelper(str, trie[rootIndex].next[str[strIndex] - 'a'], strIndex + 1);
+    for (int i = 0; i < trie[rootIndex].next.size(); i++){
+      if (searchHelper(str, trie[rootIndex].next[i], strIndex + 1))
+        return 1;
     }
     return 0;
   }
-  bool search(string word) {
-    return dfs(0, word, 0);
+  bool search(string str){
+    return searchHelper(str, 0, 0);
   }
+};
+
+class WordDictionary {
+public:
+    Trie trie;
+    WordDictionary() {
+        trie = Trie();
+    }
+    
+    void addWord(string word) {
+        trie.insert(word);
+    }
+    
+    bool search(string word) {
+        return trie.search(word);
+    }
 };
 
 /**
