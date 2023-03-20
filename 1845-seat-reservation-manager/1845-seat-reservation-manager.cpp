@@ -1,19 +1,20 @@
 class SeatManager {
 public:
-    set<int> st;
-    SeatManager(int n) {
-        for (int i = 1; i <= n; i++) 
-            st.insert(i);
-    }
+    set<int> unlocked;
+    int toTake = 1;
+    SeatManager(int n) {}
     
     int reserve() {
-        int smallest = *st.begin();
-        st.erase(smallest);
-        return smallest;
+        if (unlocked.size()){
+            int val = *unlocked.begin();
+            unlocked.erase(val);
+            return val;
+        }
+        return toTake++;
     }
     
     void unreserve(int seatNumber) {
-        st.insert(seatNumber);
+        unlocked.insert(seatNumber);
     }
 };
 
