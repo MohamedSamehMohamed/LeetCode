@@ -2,7 +2,6 @@ class SeatManager {
 public:
     set<int> st;
     SeatManager(int n) {
-        st = set<int>();
         for (int i = 1; i <= n; i++) 
             st.insert(i);
     }
