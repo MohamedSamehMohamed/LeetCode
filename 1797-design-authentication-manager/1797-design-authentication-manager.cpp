@@ -20,17 +20,10 @@ public:
     }
     
     int countUnexpiredTokens(int currentTime) {
-        if (times.empty()) return 0;
-        auto it = times.end();
-        it--;
-        int unExpiredTokens = 0;
-        while (1){
-            if (*it <= currentTime) break;
-            unExpiredTokens++;
-            if (it == times.begin()) break;
-            it--;
+        while (times.size() && *times.begin() <= currentTime){
+            times.erase(times.begin());
         }
-        return unExpiredTokens;
+        return times.size();
     }
 };
 
