@@ -8,21 +8,25 @@ public:
     }
     
     void generate(string tokenId, int currentTime) {
+        removeExpired(currentTime);
         mp[tokenId] = currentTime + timeToLive;
         times.insert(currentTime + timeToLive);
     }
     
     void renew(string tokenId, int currentTime) {
+        removeExpired(currentTime);
         if (mp[tokenId] > currentTime){
             times.erase(mp[tokenId]);
             generate(tokenId, currentTime);
         }
     }
-    
-    int countUnexpiredTokens(int currentTime) {
+    void removeExpired(int currentTime){
         while (times.size() && *times.begin() <= currentTime){
             times.erase(times.begin());
         }
+    }
+    int countUnexpiredTokens(int currentTime) {
+        removeExpired(currentTime);
         return times.size();
     }
 };
