@@ -10,7 +10,7 @@ public:
     bool insert(int val) {
         if (mp.find(val) != mp.end()) return 0;
         mp[val] = v.size();
-        v.push_back(val);
+        v.emplace_back(val);
         return 1;
     }
     
