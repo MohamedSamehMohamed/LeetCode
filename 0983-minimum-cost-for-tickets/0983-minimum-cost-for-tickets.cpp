@@ -5,8 +5,7 @@ public:
         if (day > days.back()) return 0;
         int& ret = minCost[day];
         if (~ret) return ret;
-        while (index < days.size() && days[index] < day)
-            index++;
+        index = lower_bound(days.begin(), days.end(), day) - days.begin();
         day = days[index];
         ret = 1e9;
         int period[] = {1, 7, 30};
