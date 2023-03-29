@@ -9,7 +9,7 @@ public:
         int mx = 0;
         int p = 1;
         for (int i = 1; i < n; i++){
-            maxLikeTime[p][0] = satisfaction[i];
+            maxLikeTime[p][0] = max(satisfaction[i], maxLikeTime[p^1][0]);
             mx = max(maxLikeTime[p][0], mx);
             for (int k = 1; k <= i; k++){
                 maxLikeTime[p][k] = maxLikeTime[p^1][k];
