@@ -1,16 +1,24 @@
 class Solution {
 public:
-    int dp[501][501];
-    int solve(vector<int>& a, int tk, int idx)
-    {
-        if (idx == a.size()) return 0;
-        int& ret = dp[tk][idx];
-        if (~ret) return ret;
-        return ret = max(solve(a, tk, idx + 1), tk * a[idx] + solve(a, tk + 1, idx + 1));
-    }
+    int maxLikeTime[500][500];
     int maxSatisfaction(vector<int>& satisfaction) {
         sort(satisfaction.begin(), satisfaction.end());
-        memset(dp, -1, sizeof dp);
-        return solve(satisfaction, 1, 0);
+        int n = satisfaction.size();
+        maxLikeTime[0][0] = satisfaction[0];
+        for (int i = 1; i < n; i++)
+            maxLikeTime[0][i] = -1e9;
+        int mx = 0;
+        for (int i = 1; i < n; i++){
+            maxLikeTime[i][0] = satisfaction[i];
+            mx = max(maxLikeTime[i][0], mx);
+            for (int k = 1; k < n; k++){
+                maxLikeTime[i][k] = maxLikeTime[i-1][k];
+                maxLikeTime[i][k] = max(maxLikeTime[i][k], 
+                                       maxLikeTime[i-1][k-1] + satisfaction[i] * (k+1));
+                mx = max(maxLikeTime[i][k], mx);
+            }
+        }
+        return mx;
+        
     }
 };
