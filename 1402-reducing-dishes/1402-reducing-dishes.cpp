@@ -10,10 +10,10 @@ public:
         int p = 1;
         for (int i = 1; i < n; i++){
             maxLikeTime[p][0] = max(satisfaction[i], maxLikeTime[p^1][0]);
-            for (int k = 1; k <= i; k++){
-                maxLikeTime[p][k] = maxLikeTime[p^1][k];
-                maxLikeTime[p][k] = max(maxLikeTime[p][k], 
-                                       maxLikeTime[p^1][k-1] + satisfaction[i] * (k+1));
+            for (int j = 1; j <= i; j++){
+                maxLikeTime[p][j] = maxLikeTime[p^1][j];
+                maxLikeTime[p][j] = max(maxLikeTime[p][j], 
+                                       maxLikeTime[p^1][j-1] + satisfaction[i] * (j+1));
             }
             maxLikeTime[p][i+1] = -1e9;
             p ^= 1;
