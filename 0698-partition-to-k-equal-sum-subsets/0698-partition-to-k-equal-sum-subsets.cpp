@@ -7,7 +7,7 @@ public:
         if (Sum[msk])
             return Sum[msk];
         int curMsk = 0;
-        for (int i = 0; i < nums.size(); i++){
+        for (int i = nums.size()-1; i > -1; i--){
             if (msk & (1<<i))
             {
                 curMsk |= (1<<i);
