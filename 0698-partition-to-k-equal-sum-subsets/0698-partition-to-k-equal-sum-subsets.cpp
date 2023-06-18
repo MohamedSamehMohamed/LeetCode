@@ -6,9 +6,15 @@ public:
     int getSum(vector<int>& nums, int msk){
         if (Sum[msk])
             return Sum[msk];
+        int curMsk = 0;
         for (int i = 0; i < nums.size(); i++){
             if (msk & (1<<i))
+            {
+                curMsk |= (1<<i);
                 Sum[msk] += nums[i];
+                if (msk != curMsk)
+                    Sum[curMsk] = Sum[msk];
+            }
         }
         return Sum[msk];
     }
