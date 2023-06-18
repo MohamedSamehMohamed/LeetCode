@@ -1,7 +1,17 @@
 class Solution {
 public:
     int dp[1<<16][17];
+    int Sum[1<<16];
     int sum;
+    int getSum(vector<int>& nums, int msk){
+        if (Sum[msk])
+            return Sum[msk];
+        for (int i = 0; i < nums.size(); i++){
+            if (msk & (1<<i))
+                Sum[msk] += nums[i];
+        }
+        return Sum[msk];
+    }
     int solve(vector<int>& nums, int rem, int msk){
         if (msk == 0)
             return rem == 0;
@@ -11,12 +21,7 @@ public:
         if (~ret) return ret;
         ret = 0;
         for (int curMsk=msk;curMsk && !ret; curMsk=(curMsk-1)&msk) {
-            int curSum = 0;
-            for (int i = 0; i < nums.size(); i++){
-                if (curMsk & (1<<i))
-                    curSum += nums[i];
-            }
-            if (curSum == sum){
+            if (getSum(nums, curMsk) == sum){
                 ret = solve(nums, rem - 1, msk & (~curMsk));
             }
         }
@@ -24,6 +29,7 @@ public:
     }
     bool canPartitionKSubsets(vector<int>& nums, int k) {
         memset(dp, -1, sizeof dp);
+        memset(Sum, 0, sizeof Sum);
         sum = 0;
         for (int i = 0; i < nums.size(); i++){
             sum += nums[i];
