@@ -6,7 +6,6 @@ public:
         double& ret = dp[row][column][rem];
         if (ret == ret) return ret;
         ret = 0;
-        int pass = 0;
         for(int i = -2; i <= 2; i++){
             for (int j = -2; j <= 2; j++){
                 if (abs(i) == abs(j) || i == 0 || j == 0) continue;
