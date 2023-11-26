@@ -48,6 +48,7 @@ public:
                     indeces.push_back(i);
                 }
             }
+            swap(indeces[0], indeces[1]);
             // answer is one of indeces 
             for (int id: indeces){
                 for (int i = 0; i < n; i++)
@@ -68,7 +69,10 @@ public:
                 if (edgeCnt == n-1){
                     if (index == -1) index = id;
                     index = max(index, id);
+                }else {
+                    index = indeces[1];
                 }
+                break;
             }
         }
         return edges[index];
